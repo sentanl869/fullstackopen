@@ -29,13 +29,28 @@ const App = () => {
     copy[selected] += 1
     setPoints(copy)
   }
+  const gethighestVote = () => {
+    let max_num = 0
+    let max_index = 0
+    const copy = [...points]
+    for (const [index, element] of copy.entries()) {
+      if (element > max_num) {
+        max_num = element
+        max_index = index
+      }
+    }
+    return (max_index)
+  }
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>has {points[selected]} votes</p>
       <Button handlerClick={setAnecoteVote} text='vote' />
       <Button handlerClick={setRandomAnecote} text='next anecdotes' />
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[gethighestVote()]}</p>
     </div>
   )
 }
