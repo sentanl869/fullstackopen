@@ -1,15 +1,9 @@
 import React from 'react'
 
 const Total = ({ parts }) => {
-  const sum_num = () => {
-      let total_sum = 0
-      for (let part of parts) {
-          total_sum += part.exercises
-      }
-      return (total_sum)
-  }
+  const total = parts.reduce((sum, part) => sum + part.exercises, 0)
   return (
-    <p><b>total of {sum_num()} exercises</b></p>
+    <p><b>total of {total} exercises</b></p>
   )
 }
 
