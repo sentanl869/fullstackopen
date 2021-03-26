@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
@@ -12,6 +15,12 @@ const App = () => {
   const [ newFilter, setNewFilter ] = useState('')
   const [ showAll, setShowAll ] = useState(true)
 
+  const personToShow = showAll
+    ? persons
+    : persons.filter(person =>
+        person.name.toLowerCase().includes(newFilter.toLowerCase())
+      )
+
   const addperson = (event) => {
     event.preventDefault()
     const checkArray = persons.filter(person => person.name === newName)
@@ -24,11 +33,7 @@ const App = () => {
     setNewName('')
     setNewNumber('')
   }
-  const personToShow = showAll
-    ? persons
-    : persons.filter(person =>
-        person.name.toLowerCase().includes(newFilter.toLowerCase())
-      )
+  
   const handelNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -47,25 +52,17 @@ const App = () => {
   return (
     <>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input value={newFilter} onChange={handelFilterChange}/>
-      </div>
-      <h2>add a new</h2>
-      <form onSubmit={addperson}>
-        <div>
-          name: <input value={newName} onChange={handelNameChange}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handelNumberChange}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter newFilter={newFilter} handelFilterChange={handelFilterChange} />
+      <h3>add a new</h3>
+      <PersonForm
+        addperson={addperson}
+        newName={newName}
+        newNumber={newNumber}
+        handelNameChange={handelNameChange}
+        handelNumberChange={handelNumberChange}
+      />
       <h2>Numbers</h2>
-      {personToShow.map(person =>
-        <p key={person.name}>{person.name} {person.number}</p>
-      )}
+      <Persons personToShow={personToShow} />
     </>
   )
 }
