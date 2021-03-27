@@ -17,9 +17,13 @@ const App = () => {
 
   const handleSearchChange = (event) => {
     setFilterCountry(event.target.value)
-    setCountriesToShow(countries.filter(country =>
-      country.name.toLowerCase().includes(event.target.value.toLowerCase())
-    ))
+    if (event.target.value.length > 0) {
+      setCountriesToShow(countries.filter(country =>
+        country.name.toLowerCase().includes(event.target.value.toLowerCase())
+      ))
+    } else {
+      setCountriesToShow([])
+    }
   }
 
   return (
