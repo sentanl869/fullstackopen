@@ -1,10 +1,15 @@
 import React from 'react'
 
-const Persons = ({ personToShow }) => {
+const Persons = ({ personToShow, deletePerson }) => {
   return (
-    personToShow.map(person =>
-      <p key={person.id}>{person.name} {person.number}</p>
-    )
+    personToShow.map(person => {
+      return (
+        <div key={person.id}>
+          <span>{person.name} {person.number} </span>
+          <button onClick={() => deletePerson(person)}>delete</button>
+        </div>
+      )
+    })
   )
 }
 

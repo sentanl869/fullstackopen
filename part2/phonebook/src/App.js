@@ -25,7 +25,7 @@ const App = () => {
         person.name.toLowerCase().includes(newFilter.toLowerCase())
       )
 
-  const addperson = (event) => {
+  const addPerson = (event) => {
     event.preventDefault()
     const checkArray = persons.filter(person => person.name === newName)
     if (checkArray.length > 0) {
@@ -40,6 +40,13 @@ const App = () => {
     }
     setNewName('')
     setNewNumber('')
+  }
+  const deletePerson = target => {
+    if (window.confirm(`Delete ${target.name} ?`)) {
+      personService
+        .deleteItem(target.id)
+        .then(() => setPersons(persons.filter(person => person.id !== target.id)))
+    }
   }
   
   const handelNameChange = (event) => {
@@ -63,14 +70,14 @@ const App = () => {
       <Filter newFilter={newFilter} handelFilterChange={handelFilterChange} />
       <h3>add a new</h3>
       <PersonForm
-        addperson={addperson}
+        addPerson={addPerson}
         newName={newName}
         newNumber={newNumber}
         handelNameChange={handelNameChange}
         handelNumberChange={handelNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons personToShow={personToShow} />
+      <Persons personToShow={personToShow} deletePerson={deletePerson} />
     </>
   )
 }
