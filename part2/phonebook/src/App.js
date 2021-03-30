@@ -27,9 +27,16 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const checkArray = persons.filter(person => person.name === newName)
-    if (checkArray.length > 0) {
-      alert(`${newName} is already added to phonebook`)
+    const checkPerson = persons.find(person => person.name === newName)
+    if (checkPerson) {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const changePerson = { ...checkPerson, number: newNumber }
+        personService
+          .updateItem(checkPerson.id, changePerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== checkPerson.id ? person : returnedPerson))
+          })
+      }
     } else {
       const personObject = { name: newName, number: newNumber }
       personService
