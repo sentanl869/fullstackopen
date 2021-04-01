@@ -45,6 +45,15 @@ const App = () => {
               setMessage(null)
             }, 5000)
           })
+          .catch(error => {
+            setMessage({
+              content: `Information of ${newName} has already been removed from server`,
+              type: 'error'
+            })
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
+          })
       }
     } else {
       const personObject = { name: newName, number: newNumber }
@@ -73,6 +82,16 @@ const App = () => {
           setMessage({
             content: `Delete ${target.name} success`,
             type: 'success'
+          })
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setPersons(persons.filter(person => person.id !== target.id))
+          setMessage({
+            content: `Information of ${newName} has already been removed from server`,
+            type: 'error'
           })
           setTimeout(() => {
             setMessage(null)
