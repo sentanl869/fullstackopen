@@ -58,13 +58,9 @@ app.get('/api/persons', (req, res) => {
 })
 
 app.get('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id)
-  const person = persons.find(person => person.id === id)
-  if (person) {
+  Person.findById(req.params.id).then(person => {
     res.json(person)
-  } else {
-    res.status(404).end()
-  }
+  })
 })
 
 app.delete('/api/persons/:id', (req, res) => {
@@ -80,18 +76,13 @@ app.post('/api/persons', (req, res) => {
       error: 'missing data'
     })
   }
-  if (persons.find(person => person.name === body.name)) {
-    return res.status(400).json({
-      error: 'name must be unique'
-    })
-  }
-  const person = {
-    id: Math.floor(Math.random()*10000),
+  const person = new Person({
     name: body.name,
     number: body.number,
-  }
-  persons = persons.concat(person)
-  res.json(person)
+  })
+  person.save().then(savedPerson => {
+    res.json(savedPerson)
+  })
 })
 
 const PORT = process.env.PORT || 3001
