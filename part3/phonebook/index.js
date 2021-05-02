@@ -20,13 +20,16 @@ app.use(
     ':method :url :status :res[content-length] - :response-time ms :body'
 ))
 
-// app.get('/info', (req, res) => {
-//   const resinfo = `
-//     <p>Phonebook has info for ${persons.length} people</p>
-//     <p>${Date()}</p>
-//   `
-//   res.send(resinfo)
-// })
+app.get('/info', (req, res) => {
+  Person.find({})
+    .then(persons => {
+      const resinfo = `
+        <p>Phonebook has info for ${persons.length} people</p>
+        <p>${Date()}</p>
+      `
+      res.send(resinfo)
+    })
+})
 
 app.get('/api/persons', (req, res) => {
   Person.find({}).then(persons => {
