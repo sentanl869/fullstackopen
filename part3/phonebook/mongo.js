@@ -32,7 +32,7 @@ if (process.argv.length<4) {
     name: process.argv[3],
     number: process.argv[4],
   })
-  person.save().then(({name, number}) => {
+  person.save().then(({ name, number }) => {
     console.log(`added ${name} number ${number} to phonebook`)
     mongoose.connection.close()
   })
