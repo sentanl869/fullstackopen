@@ -85,22 +85,39 @@ describe('total likes', () => {
 })
 
 describe('most likes', () => {
-  const target_blog = {
-    _id: '5a422b3a1b54a676234d17f9',
-    title: 'Canonical string reduction',
-    author: 'Edsger W. Dijkstra',
-    url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
-    likes: 12,
-    __v: 0
-  }
-
   test('when the list is empty', () => {
     const result = listHelper.favoriteBlog([])
     expect(result).toEqual({})
   })
 
   test('find the most like blog', () => {
+    const target_blog = {
+      _id: '5a422b3a1b54a676234d17f9',
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+      likes: 12,
+      __v: 0
+    }
+
     const result = listHelper.favoriteBlog(blogs)
     expect(result).toEqual(target_blog)
+  })
+})
+
+describe('most blogs', () => {
+  test('when the list is empty', () => {
+    const result = listHelper.mostBlogs([])
+    expect(result).toEqual({})
+  })
+
+  test('find the most blogs author', () => {
+    const target_author = {
+      author: 'Robert C. Martin',
+      blogs: 3,
+    }
+
+    const result = listHelper.mostBlogs(blogs)
+    expect(result).toEqual(target_author)
   })
 })
