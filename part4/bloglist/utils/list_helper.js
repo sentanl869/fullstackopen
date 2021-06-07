@@ -16,7 +16,6 @@ const favoriteBlog = (blogs) => {
 
 const mostBlogs = (blogs) => {
   if (blogs.length === 0) return {}
-  let result = {}
   let statistic = new Map()
   blogs.forEach(blog => {
     if (statistic.has(blog.author)) {
@@ -28,6 +27,7 @@ const mostBlogs = (blogs) => {
   })
   const entires = statistic.entries()
   let max_count = 0
+  let result = {}
   for (let [k, v] of entires) {
     if (v > max_count) {
       max_count = v
@@ -40,6 +40,32 @@ const mostBlogs = (blogs) => {
   return result
 }
 
+const mostLikes = (blogs) => {
+  if (blogs.length === 0) return {}
+  let statistic = new Map()
+  blogs.forEach(blog => {
+    if (statistic.has(blog.author)) {
+      let count = statistic.get(blog.author) + blog.likes
+      statistic.set(blog.author, count)
+    } else {
+      statistic.set(blog.author, blog.likes)
+    }
+  })
+  const entires = statistic.entries()
+  let max_count = 0
+  let result = {}
+  for (let [k, v] of entires) {
+    if (v > max_count) {
+      max_count = v
+      result = {
+        author : k,
+        likes: v,
+      }
+    }
+  }
+  return result
+}
+
 module.exports = {
-  dummy, totalLikes, favoriteBlog, mostBlogs
+  dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
 }
