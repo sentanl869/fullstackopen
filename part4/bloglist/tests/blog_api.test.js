@@ -25,6 +25,14 @@ test('all blogs are returned', async () => {
   expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
 
+test('blog has id property', async () => {
+  const blogs = await helper.blogsInDb()
+
+  blogs.map(blog => {
+    expect(blog.id).toBeDefined()
+  })
+})
+
 afterAll(async () => {
   mongoose.connection.close()
 })
