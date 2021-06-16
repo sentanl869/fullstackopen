@@ -54,6 +54,29 @@ test('a blog can be added', async () => {
   expect(contents).toContain('Just test add')
 })
 
+test('a blog whitout likes', async () => {
+  const newBlog = {
+    title: 'Just test blog whitout likes',
+    author: 'sentanl869',
+    url: 'https://justfortestblogwhitoutlikes.com/',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const blogs = await helper.blogsInDb()
+
+  blogs.map(blog => {
+    expect(blog.likes).toBeDefined()
+    if (blog.title === 'Just test blog whitout likes') {
+      expect(blog.likes).toBe(0)
+    }
+  })
+})
+
 afterAll(async () => {
   mongoose.connection.close()
 })
