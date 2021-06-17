@@ -77,6 +77,36 @@ test('a blog whitout likes', async () => {
   })
 })
 
+test('add a blog without title', async () => {
+  const newBlog = {
+    author: 'sentanl869',
+    url: 'https://justfortestblogwhitouttitle.com/',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  const blogs = await helper.blogsInDb()
+  expect(blogs).toHaveLength(helper.initialBlogs.length)
+})
+
+test('add a blog whitout url', async () => {
+  const newBlog = {
+    title: 'Just test blog whitout url',
+    author: 'sentanl869',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  const blogs = await helper.blogsInDb()
+  expect(blogs).toHaveLength(helper.initialBlogs.length)
+})
+
 afterAll(async () => {
   mongoose.connection.close()
 })
