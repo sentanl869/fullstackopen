@@ -71,13 +71,8 @@ describe('addition of new blog', () => {
       .expect('Content-Type', /application\/json/)
 
     const blogs = await helper.blogsInDb()
-
-    blogs.map(blog => {
-      expect(blog.likes).toBeDefined()
-      if (blog.title === 'Just test blog whitout likes') {
-        expect(blog.likes).toBe(0)
-      }
-    })
+    const targetBlog = blogs.find(blog => blog.title === newBlog.title)
+    expect(targetBlog.likes).toBe(0)
   })
 
   test('add a blog without title', async () => {
@@ -127,6 +122,27 @@ describe('deletion of a blog', () => {
 
     const contents = blogsAtEnd.map(blog => blog.title)
     expect(contents).not.toContain(blogToDelete.title)
+  })
+})
+
+describe('updates of a blog', () => {
+  test('updates blog likes value', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+    blogToUpdate.likes = blogToUpdate.likes + 1
+
+    const response = await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const returnedBlog = response.body
+    expect(returnedBlog.likes).toBe(blogToUpdate.likes)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    const targetBlog = blogsAtEnd.find(blog => blog.id === blogToUpdate.id)
+    expect(targetBlog.likes).toBe(blogToUpdate.likes)
   })
 })
 
