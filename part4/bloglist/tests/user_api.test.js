@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const bcrypt = require('bcrypt')
 const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
@@ -7,7 +8,13 @@ const User = require('../models/user')
 
 beforeEach(async () => {
   await User.deleteMany({})
-  let userObject = helper.initialUsers.map(user => new User(user))
+  let userObject = await Promise.all(
+    helper.initialUsers.map(async user => {
+      const passwordHash = await bcrypt.hash('fullstackopen', 10)
+      user.passwordHash = passwordHash
+      return new User(user)
+    })
+  )
   const promiseArray = userObject.map(user => user.save())
   await Promise.all(promiseArray)
 })
@@ -32,7 +39,7 @@ describe('addition of new user', () => {
     const newUser = {
       username: 'useraddtest',
       name: 'uat',
-      password: 'fullstackopen2021'
+      password: 'fullstackopen'
     }
 
     await api
@@ -52,7 +59,7 @@ describe('addition of new user', () => {
     const newUser = {
       username: 'testuser_1',
       name: 'testuser_1_name',
-      password: 'fullstackopen2021'
+      password: 'fullstackopen'
     }
 
     await api

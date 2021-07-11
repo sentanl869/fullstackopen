@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
@@ -44,27 +45,22 @@ const initialUsers = [
   {
     username: 'testuser_1',
     name: 'testuser_1_name',
-    passwordHash: '$2b$10$nATfsXFWjYI09DG4WY/WTOR0.WVgB3gbrdACyPt2wRIPCmWd.8RE2',
   },
   {
     username: 'testuser_2',
     name: 'testuser_2_name',
-    passwordHash: '$2b$10$nATfsXFWjYI09DG4WY/WTOR0.WVgB3gbrdACyPt2wRIPCmWd.8RE2',
   },
   {
     username: 'testuser_3',
     name: 'testuser_3_name',
-    passwordHash: '$2b$10$nATfsXFWjYI09DG4WY/WTOR0.WVgB3gbrdACyPt2wRIPCmWd.8RE2',
   },
   {
     username: 'testuser_4',
     name: 'testuser_4_name',
-    passwordHash: '$2b$10$nATfsXFWjYI09DG4WY/WTOR0.WVgB3gbrdACyPt2wRIPCmWd.8RE2',
   },
   {
     username: 'testuser_5',
     name: 'testuser_5_name',
-    passwordHash: '$2b$10$nATfsXFWjYI09DG4WY/WTOR0.WVgB3gbrdACyPt2wRIPCmWd.8RE2',
   },
 ]
 
@@ -78,6 +74,16 @@ const usersInDb = async () => {
   return users.map(user => user.toJSON())
 }
 
+const authorOfBlogs = async () => {
+  const passwordHash = await bcrypt.hash('fullstackopen', 10)
+  const user = new User({
+    username: 'authorOfBlogs',
+    name: 'authorOfBlogsName',
+    passwordHash
+  })
+  return await user.save()
+}
+
 module.exports = {
-  initialBlogs, blogsInDb, initialUsers, usersInDb,
+  initialBlogs, blogsInDb, initialUsers, usersInDb, authorOfBlogs,
 }
