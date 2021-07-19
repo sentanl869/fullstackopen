@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -11,6 +12,7 @@ const App = () => {
   const [ title, setTitle ] = useState('')
   const [ author, setAuthor ] = useState('')
   const [ url, setUrl ] = useState('')
+  const [ message, setMessage ] = useState(null)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -38,16 +40,46 @@ const App = () => {
       setBlogs(await blogService.getAll())
       setUsername('')
       setPassword('')
+      setMessage({
+        content: 'Login success',
+        type: 'success'
+      })
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     } catch (exception) {
-      console.log('Wrong credentials')
+      setMessage({
+        content: 'Wrong username or password',
+        type: 'error'
+      })
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
   const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogappUser')
-    blogService.setToken(null)
-    setUser(null)
-    setBlogs([])
+    try {
+      window.localStorage.removeItem('loggedBlogappUser')
+      blogService.setToken(null)
+      setUser(null)
+      setBlogs([])
+      setMessage({
+        content: 'Logout success',
+        type: 'success'
+      })
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    } catch (exception) {
+      setMessage({
+        content: 'Some wrong happened',
+        type: 'error'
+      })
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    }
   }
 
   const handleAddBlog = async (event) => {
@@ -63,8 +95,21 @@ const App = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
+      setMessage({
+        content: `A new blog ${title} by ${author} added`,
+        type: 'success'
+      })
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     } catch (exception) {
-      console.log('Wrong addtion')
+      setMessage({
+        content: 'Wrong addition',
+        type: 'error'
+      })
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
@@ -153,6 +198,7 @@ const App = () => {
 
   return (
     <>
+      <Notification message={message} />
       {user === null
         ? loginForm()
         : blogForm()
