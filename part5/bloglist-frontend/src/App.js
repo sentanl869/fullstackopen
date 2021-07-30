@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -8,7 +8,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  const [ blogs, setBlogs ] = useState([])
   const [ user, setUser ] = useState(null)
   const [ message, setMessage ] = useState(null)
 
@@ -19,13 +19,16 @@ const App = () => {
       setUser(user)
       blogService.setToken(user.token)
       blogService.getAll().then(blogs =>
-        setBlogs( blogs )
+        setBlogs(blogs)
       )
     }
   }, [])
 
+  const blogFormRef = useRef()
+
   const createBlog = async (blogObject) => {
     try {
+      blogFormRef.current.toggleVisibility()
       const returnedBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(returnedBlog))
       setMessage({
@@ -38,6 +41,28 @@ const App = () => {
     } catch (exception) {
       setMessage({
         content: 'Wrong addition',
+        type: 'error'
+      })
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    }
+  }
+
+  const updateBlog = async (blogObject) => {
+    try {
+      const returnedBlog = await blogService.update(blogObject)
+      setBlogs(blogs.map(blog => blog.id !== returnedBlog.id ? blog : returnedBlog))
+      setMessage({
+        content: `The likes of blog ${returnedBlog.title} added success`,
+        type: 'success'
+      })
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    } catch (exception) {
+      setMessage({
+        content: 'Wrong updation',
         type: 'error'
       })
       setTimeout(() => {
@@ -106,7 +131,7 @@ const App = () => {
   )
 
   const addBlogForm = () => (
-    <Togglable buttonLabel='create new blog'>
+    <Togglable buttonLabel='create new blog' ref={blogFormRef}>
       <BlogForm
         createBlog={createBlog}
       />
@@ -122,7 +147,7 @@ const App = () => {
       </p>
       {addBlogForm()}
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
       )}
     </div>
   )
