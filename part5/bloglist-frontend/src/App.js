@@ -138,6 +138,15 @@ const App = () => {
     </Togglable>
   )
 
+  const blogDisplay = () => {
+    blogs.sort((a, b) => b.likes - a.likes)
+    return (
+      blogs.map(blog =>
+        <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
+      )
+    )
+  }
+
   const blogForm = () => (
     <div>
       <h2>blogs</h2>
@@ -146,9 +155,7 @@ const App = () => {
         <button onClick={handleLogout}>logout</button>
       </p>
       {addBlogForm()}
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
-      )}
+      {blogDisplay()}
     </div>
   )
 
