@@ -4,15 +4,15 @@ const LoginForm = ({ login }) => {
   const [ username, setUsername ] = useState('')
   const [ password, setPassword ] = useState('')
 
-  const handleUsernameChange = (event) => {
+  const handleUsernameChange = event => {
     setUsername(event.target.value)
   }
 
-  const handlePasswordChange = (event) => {
+  const handlePasswordChange = event => {
     setPassword(event.target.value)
   }
 
-  const handleLogin = (event) => {
+  const handleLogin = event => {
     event.preventDefault()
     login({
       username,
