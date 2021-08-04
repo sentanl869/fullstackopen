@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Blog = ({blog, updateBlog, removeBlog}) => {
+const Blog = ({ blog, updateBlog, removeBlog }) => {
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
@@ -18,7 +18,7 @@ const Blog = ({blog, updateBlog, removeBlog}) => {
 
   const handleLikes = event => {
     event.preventDefault()
-    updateBlog({...blog, likes: blog.likes + 1})
+    updateBlog({ ...blog, likes: blog.likes + 1 })
   }
 
   const handleRemove = event => {

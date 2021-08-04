@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 const BlogForm = ({ createBlog }) => {
@@ -17,7 +17,7 @@ const BlogForm = ({ createBlog }) => {
   const handleUrlChange = (event) => {
     setUrl(event.target.value)
   }
-  
+
   const handleAddBlog = (event) => {
     event.preventDefault()
     createBlog({
