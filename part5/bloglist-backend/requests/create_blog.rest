@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs HTTP/1.1
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNlbnRhbmw4NjkiLCJpZCI6IjYwZGRkNGY5MjM1OWI1MGI2MjhlYjBlMyIsImlhdCI6MTYyNTg0MDcxNH0.KSAjQ1KpwTsBNYm-Hjan83bg7T6eu7_HIrppbJ2CHmA
+
+{
+    "title": "Test title with token",
+    "author": "Test user with token",
+    "url": "http://www.test.url.token.com",
+    "likes": 569
+}

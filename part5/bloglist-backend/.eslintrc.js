@@ -1,10 +1,9 @@
 module.exports = {
   'env': {
-    'browser': true,
+    'node': true,
     'commonjs': true,
-    'es6': true,
-    'jest/globals': true,
-    'cypress/globals': true
+    'es2021': true,
+    'jest': true
   },
   'extends': [
     'eslint:recommended',
@@ -14,11 +13,10 @@ module.exports = {
     'ecmaFeatures': {
       'jsx': true
     },
-    'ecmaVersion': 2018,
-    'sourceType': 'module'
+    'ecmaVersion': 12
   },
   'plugins': [
-    'react', 'jest', 'cypress'
+    'react'
   ],
   'rules': {
     'indent': [
@@ -45,12 +43,6 @@ module.exports = {
     'arrow-spacing': [
       'error', { 'before': true, 'after': true }
     ],
-    'no-console': 0,
-    'react/prop-types': 0
-  },
-  'settings': {
-    'react': {
-      'version': 'detect'
-    }
+    'no-console': 0
   }
 }

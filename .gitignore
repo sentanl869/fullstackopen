@@ -6,3 +6,4 @@ script
 misc
 node_modules
 .env
+cypress/videos
