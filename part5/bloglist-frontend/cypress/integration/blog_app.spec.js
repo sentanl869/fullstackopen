@@ -38,4 +38,19 @@ describe('Blog app', function() {
         .and('have.css', 'border-style', 'solid')
     })
   })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: 'sentanl869', password: 'fullstackopen' })
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('create new blog').click()
+      cy.get('#title').type('a blog created by cypress')
+      cy.get('#author').type('cypress')
+      cy.get('#url').type('http://test.by.cypress')
+      cy.get('#create-button').click()
+      cy.contains('a blog created by cypress cypress')
+    })
+  })
 })
