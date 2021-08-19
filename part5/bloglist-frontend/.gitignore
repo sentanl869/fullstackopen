@@ -24,4 +24,5 @@ yarn-error.log*
 .eslintcache
 
 cypress/videos
+cypress/screenshots
 *.mp4

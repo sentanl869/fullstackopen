@@ -27,7 +27,7 @@ const Blog = ({ blog, updateBlog, removeBlog }) => {
   }
 
   const blogDetail = () => (
-    <div>
+    <div className="blog-detail">
       <div>{blog.url}</div>
       <div>
         likes {blog.likes}

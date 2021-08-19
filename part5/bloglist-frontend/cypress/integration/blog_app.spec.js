@@ -50,7 +50,20 @@ describe('Blog app', function() {
       cy.get('#author').type('cypress')
       cy.get('#url').type('http://test.by.cypress')
       cy.get('#create-button').click()
-      cy.contains('a blog created by cypress cypress')
+      cy.contains('a blog created by cypress')
+    })
+
+    it('A blog can be liked', function() {
+      cy.createBlog({
+        title: 'a blog created by cypress',
+        author: 'cypress',
+        url: 'http://test.by.cypress'
+      })
+      cy.contains('a blog created by cypress')
+        .contains('view').click()
+      cy.get('.blog-detail')
+        .contains('like').click()
+      cy.get('.blog-detail').contains('likes 1')
     })
   })
 })
