@@ -66,6 +66,32 @@ describe('Blog app', function() {
       cy.get('.blog-detail').contains('likes 1')
     })
 
+
+    it('Blogs are automatically sorted by likes', function() {
+      cy.createBlog({
+        title: 'a blog created by cypress 1',
+        author: 'cypress',
+        url: 'http://test.by.cypress1',
+        likes: 5
+      })
+      cy.createBlog({
+        title: 'a blog created by cypress 2',
+        author: 'cypress',
+        url: 'http://test.by.cypress2',
+        likes: 15
+      })
+      cy.createBlog({
+        title: 'a blog created by cypress 3',
+        author: 'cypress',
+        url: 'http://test.by.cypress3',
+        likes: 10
+      })
+
+      cy.contains('view').click()
+      cy.get('.blog-detail')
+        .contains('likes 15')
+    })
+
     it('A blog can be deleted', function() {
       cy.createBlog({
         title: 'a blog created by cypress',
@@ -76,7 +102,8 @@ describe('Blog app', function() {
         .contains('view').click()
       cy.get('.blog-detail')
         .contains('remove').click()
-      cy.contains('a blog created by cypress').should('not.contain')
+      cy.get('.success')
+        .should('contain', 'Delete blog a blog created by cypress by cypress success')
     })
   })
 })
